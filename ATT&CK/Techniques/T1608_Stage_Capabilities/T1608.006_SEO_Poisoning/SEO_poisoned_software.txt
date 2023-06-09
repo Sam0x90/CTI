@@ -1,0 +1,50 @@
+1Password
+7-zip
+Adobe Reader
+AMD
+AnyDesk
+Audacity
+Awesome Miner
+Bitwarden
+Blender
+Brave Browser
+CCleaner
+ChatGPT
+Cisco AnyConnect
+Citrix
+CPU-Z
+Docker
+Figma
+FileZilla
+foxit reader
+GIM
+Inkscape
+Java
+LibreOffice
+Lightshot
+Malwarebytes
+Microsoft Teams
+NordVPN
+NotePad++
+NVidia
+OBS
+Paint.net
+Photoshop
+Pixlr
+PowerISO
+PuTTY
+Python
+Rufus
+Slack
+TeamViewer
+Thunderbird
+Tor Browser
+TunnelBear
+TurboTax
+Virtualbox
+Visual Studio Code
+VLC
+Webex
+WinRAR
+WinSCP
+Zoom
