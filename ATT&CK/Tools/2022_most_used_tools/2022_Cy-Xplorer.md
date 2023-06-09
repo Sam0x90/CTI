@@ -6,6 +6,7 @@ Link: https://www.orangecyberdefense.com/global/white-papers/cy-xplorer-2023
 
 From top to bottom:
 
+```
 Cobalt Strike
 Metasploit
 Plugx
@@ -26,3 +27,4 @@ Powerhub
 Merlin
 Manjusaka
 TrevorC2
+```
