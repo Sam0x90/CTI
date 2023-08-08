@@ -1,5 +1,10 @@
 
 
+Use the spreadsheet to lead the purple team exercise. 
+By default the spreadsheet offers 2 lines to document security controls. If you have identified (pre or post execution) more than 2 security controls, just add a new line and document as usual (I mean Excel stuff...).
+
+
+
 Here is the list of steps in a more readable format with added comments.
 
 
