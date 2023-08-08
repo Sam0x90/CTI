@@ -14,7 +14,7 @@ Not covered
 
 ### Step 2 - Resource Development: T1608.006 Stage Capabilities: SEO Poisoning
 
-Not covered but most software SEO-poisoned could be found here:
+Not covered but most software recently SEO-poisoned could be found here:
 https://github.com/Sam0x90/CTI/blob/main/ATT%26CK/Techniques/T1608_Stage_Capabilities/T1608.006_SEO_Poisoning/SEO_poisoned_software.txt
 
 ### Step 3 - Initial Access: T1566.001 Phishing: Spearphishing Attachment - S0650 QakBot
