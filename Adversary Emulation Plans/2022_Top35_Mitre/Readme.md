@@ -3,7 +3,9 @@
 Use the spreadsheet to lead the purple team exercise. 
 By default the spreadsheet offers 2 lines to document security controls. If you have identified (pre or post execution) more than 2 security controls, just add a new line and document as usual (I mean Excel stuff...).
 
-
+I tried as much as possible to avoid using C2
+So you might enrich this emulation plan with a bit more C2 flavors to make it more realistic.
+However this is a very good start for any organization to test their defenses against typical TTPs. And it doesn't require a strong mature red team infra.
 
 Here is the list of steps in a more readable format with added comments.
 
