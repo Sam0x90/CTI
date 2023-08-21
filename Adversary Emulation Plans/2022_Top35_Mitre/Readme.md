@@ -78,15 +78,17 @@ Using Powerview, here is procedure example:
 
 "Using Powerview recon script to execute several discovery commands such as:
 
-```Get-NetLocalGroup```
-```Get-NetLocalGroupMember```
-```Get-NetShare```
-```Get-NetDomain```
-```Get-NetUser -SPN | ?{$_.memberof -match 'Domain Admins'}```
-```Get-DomainSID```
-```Get-DomainTrust```
-```Get-DomainGPO```
-```Get-DomainPolicy```"
+```
+Get-NetLocalGroup
+Get-NetLocalGroupMember
+Get-NetShare
+Get-NetDomain
+Get-NetUser -SPN | ?{$_.memberof -match 'Domain Admins'}
+Get-DomainSID
+Get-DomainTrust
+Get-DomainGPO
+Get-DomainPolicy
+```
 
 ### Step 12 - Execution/Discovery: T1047 Windows Management Instrumentation & T1518 Software Discovery
 
@@ -113,12 +115,14 @@ Using Powerview, here is procedure example:
 
 ### Step 17 - Persistence: T1547.001 Registry Run Keys / Stratup Folder
 
-```reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run" /v "PurpleCalc" /t REG_SZ /d "C:\Windows\System32\calc.exe" /f```
-```reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunOnce" /v "PurpleCalc" /t REG_SZ /d "C:\Windows\System32\calc.exe" /f```
-```reg add "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Run" /v "PurpleCalc" /t REG_SZ /d "C:\Windows\System32\calc.exe" /f```
-```reg add "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnce" /v "PurpleCalc" /t REG_SZ /d "C:\Windows\System32\calc.exe" /f```
-```reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders" /v "Startup" /t REG_EXPAND_SZ /d "C:\temp" /f```
-```reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Run" /v "PurpleCalc" /t REG_SZ /d "C:\Windows\System32\calc.exe" /f```
+```
+reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run" /v "PurpleCalc" /t REG_SZ /d "C:\Windows\System32\calc.exe" /f
+reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunOnce" /v "PurpleCalc" /t REG_SZ /d "C:\Windows\System32\calc.exe" /f
+reg add "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Run" /v "PurpleCalc" /t REG_SZ /d "C:\Windows\System32\calc.exe" /f
+reg add "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnce" /v "PurpleCalc" /t REG_SZ /d "C:\Windows\System32\calc.exe" /f
+reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders" /v "Startup" /t REG_EXPAND_SZ /d "C:\temp" /f
+reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Run" /v "PurpleCalc" /t REG_SZ /d "C:\Windows\System32\calc.exe" /f
+```
 
 ### Step 18 - Privilege Escalation/Defense Evasion: T1055.001 Process Injection: Dynamic-link Library Injection & S0154 Cobalt Strike
 
@@ -169,10 +173,14 @@ net localgroup
 
 ### Step 26 - Discovery: T1087.002 Account Discovery: Domain Account & T1018 Remote System Discovery & S0552 AdFind
 
-adfind.exe
+```adfind.exe```
+
 renamed_adfind.exe
+
+```
 adfind -f (objectcategory=person) > ad_users.txt
 adfind -f objectcategory=computer > ad_computers.txt
+```
 
 ### Step 27 - Lateral Movement: T1021.001 Remote Services: Remote Desktop Protocol
 
