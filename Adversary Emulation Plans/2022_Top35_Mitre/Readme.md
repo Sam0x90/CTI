@@ -1,14 +1,19 @@
+# Context and Goal
+When I first created this emulation plan, I wanted something reprensentative of what most organizations are likely to face, hence having a top MITRE techniques.
+My goal is to enable more organizations to be able to Purple Team. So cancel that internal web app that you wanted to pentest and give this emulation plan to the pentester. Make him/her sit with your Blue Team.
 
-
-Use the spreadsheet to lead the purple team exercise. 
-By default the spreadsheet offers 2 lines to document security controls. If you have identified (pre or post execution) more than 2 security controls, just add a new line and document as usual (I mean Excel stuff...).
-
-I tried as much as possible to avoid using C2
-So you might enrich this emulation plan with a bit more C2 flavors to make it more realistic.
+In order to onboard as much organization as we can into the adversary emulation world, I tried to avoid using C2 as much as possible.
+For more mature organizations, you might therefore enrich this plan with a bit more C2 flavor to make it more realistic.
 However this is a very good start for any organization to test their defenses against typical TTPs. And it doesn't require a strong mature red team infra.
 
-Here is the list of steps in a more readable format with added comments.
+Now keep in mind that the goal is not to detect 100% of the tested techniques. Preventing or detecting one of this technique is already a win for the Blue Team. The idea of catching one of the many steps performed by an attacker along the killchain is still a valid concept.
+For some techniques, it will definitely makes sense to invest effort into hardening to prevent it or invest into detection engineering to detect it. For other you might only need to ensure that you can get the right telemetry. A trade-off is to be found. 
 
+# How to
+Use the spreadsheet and this repository's resource to lead the purple team exercise. Plan the exercise with your sysadmin/network team, why not invite them around the table to strenghten collaboration? The most realistic emulation should occur on a production environment. 
+By default the spreadsheet offers 2 lines to document security controls for each technique. If you have identified (pre or post execution) more than 2 security controls, just add a new line in between. 
+
+To ease the reading, I've extracted each procedure's step below and added few comments.
 
 ### Step 1 - Reconnaissance: n/a
 
