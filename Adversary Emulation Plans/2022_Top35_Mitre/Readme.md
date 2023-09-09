@@ -138,12 +138,21 @@ reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Ru
 
 
 ### Step 20 - Defense Evasion: T1218.010 System Binary Proxy Execution: Regsvr32
+Because regsvr32 is used to register or unregister an OLE object, the DLL needs and will executes by default an export function named DllRegisterServer.
+1. Download this harmless DLL from RedCanary github: https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1218.010/bin/AllTheThingsx86.dll
+2. Execute: ```regsvr32.exe /s .\Downloads\AllTheThingsx86.dll```
 
-
+This DLL was part of an open source project that no longer exists but the DLL is harmless and has been built to be loaded in various ways such as DllRegisterServer function. Upon execution the function DllRegisterServer will execute calc.exe. You should therefore see a calculator pops up on the screen. Alternatively you can remove the "/s" argument (silent) to get a confirmation (or error) message about the execution, though attackers usually use the "/s" argument to avoid tipping off potential user. 
 
 ### Step 21 - Defense Evasion: T1218.011 System Binary Proxy Execution: Rundll32
+Calling export function name with arguments
+```rundll32 advpack.dll, RegisterOCX ""cmd.exe /c calc.exe""```
 
+Calling export function by ordinal with arguments
+```rundll32 ""advpack.dll,#12"" ""cmd.exe /c calc.exe""```
 
+Calling export function by negative ordinal number with args
+```rundll32 ""advpack.dll,#-4294967284"" ""cmd.exe /c calc.exe""```
 
 ### Step 22 - Credential Access: T1003.001 OS Credential Dumping: LSASS Memory & S0002 Mimikatz & S0349 Lazagne
 
