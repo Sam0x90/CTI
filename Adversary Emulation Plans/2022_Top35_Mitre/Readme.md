@@ -16,6 +16,8 @@ For some techniques, it will definitely makes sense to invest effort into harden
 - The most realistic simulation/emulation should occur on a production environment. 
 - For the endpoint tests, try first with all security enabled (AV, EDR, FW, etc.). If the technique is blocked, this is great! Document and retest with the security disabled to see what's your position on the telemetry for that technique. We all have that workstation where the AV/EDR is struggling to work properly, could you at least detect it if this one was targeted?
 
+# Procedures
+
 To ease the reading, I've extracted each procedure's step below and added few comments.
 
 ### Step 1 - Reconnaissance: n/a
