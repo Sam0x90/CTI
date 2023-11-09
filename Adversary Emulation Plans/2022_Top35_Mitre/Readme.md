@@ -1,9 +1,9 @@
 # Context and Goal
 When I first created this emulation plan, I wanted something reprensentative of what most organizations are likely to face, hence having a top MITRE techniques.
-This more a simulation plan than real emulation of a threat as it is a combination of the most used techniques by various adversaries. Intel has been gathered through different public intel reports.
+This is more a simulation plan than real emulation of a threat as it is a combination of the most used techniques by various adversaries. Intel has been gathered through different public intel reports.
 My goal is to enable more organizations to be able to Purple Team. So cancel that internal web app that you wanted to pentest and give this emulation plan to the pentester. Make him/her sit with your Blue Team.
 
-In order to onboard as much organization as we can into the adversary emulation world, I tried to avoid using C2 as much as possible.
+In order to onboard as many organization as we can into the adversary emulation world, I tried to avoid using C2 as much as possible.
 For more mature organizations, you might therefore enrich this plan with a bit more C2 flavor to make it more realistic.
 However, this is a very good start for any organization to test their defenses against typical TTPs. And it doesn't require a strong mature red team infra.
 
