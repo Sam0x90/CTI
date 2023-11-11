@@ -194,7 +194,7 @@ The vbs script will then:
 2. ```reg add ""HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunOnce"" /v ""PurpleCalc"" /t REG_SZ /d ""C:\Windows\System32\calc.exe"" /f```
 3. ```reg add ""HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Run"" /v ""PurpleCalc"" /t REG_SZ /d ""C:\Windows\System32\calc.exe"" /f```
 4. ```reg add ""HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnce"" /v ""PurpleCalc"" /t REG_SZ /d ""C:\Windows\System32\calc.exe"" /f```
-5. ```reg add ""HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders"" /v ""Startup"" /t REG_EXPAND_SZ /d ""C:\temp"" /f```
+5. ```reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders" /v "PurpleCalc" /t REG_EXPAND_SZ /d "C:\Windows\System32\calc.exe" /f```
 6. ```reg add ""HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Run"" /v ""PurpleCalc"" /t REG_SZ /d ""C:\Windows\System32\calc.exe"" /f```
 
 <ins>Cleaning procedure</ins>
