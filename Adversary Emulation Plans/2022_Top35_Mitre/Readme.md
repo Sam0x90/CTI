@@ -12,7 +12,9 @@ For some techniques, it will definitely makes sense to invest effort into harden
 
 # How to tips
 - Use the spreadsheet and this repository's resource to lead the purple team exercise. Plan the exercise with your sysadmin/network team, why not invite them around the table to strenghten collaboration? 
-- By default the spreadsheet offers 2 lines to document security controls for each technique. If you have identified (pre or post execution) more than 2 security controls, just add a new line in between.
+- By default the spreadsheet offers 2 lines to document security controls for each technique. If you have identified (pre or post execution) more than 2 security controls, just add a new line in between. As an example, I've added for the first TTP a third security control that is applicable to this technique. 
+<img width="1016" alt="image" src="https://github.com/Sam0x90/CTI/assets/13771868/f6185ce2-b50a-4c2f-b5ec-a45fe4e2b3f0">
+
 - The most realistic simulation/emulation should occur on a production environment. 
 - For the endpoint tests, try first with all security enabled (AV, EDR, FW, etc.). If the technique is blocked, this is great! Document and retest with the security disabled to see what's your position on the telemetry for that technique. We all have that workstation where the AV/EDR is struggling to work properly, could you at least detect it if this one was targeted?
 
