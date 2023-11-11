@@ -168,7 +168,7 @@ The vbs script will then:
 - run a cmd and ping github.com
 
 <ins>Cleaning procedure</ins>
-1. Copy and run as admin the script wmi_sub_remove.ps1 to clean up the WMI subscription.
+1. Copy and run as admin the script wmi_sub_remove.ps1 to clean up the WMI subscription (binding, filter and consumer).
 2. Delete file ""cmd_fileping.vbs"" in C:\temp\folder
 
 ### Step 15 - Execution/Lateral Movement: T1047 Windows Management Instrumentation & T1021.006 Remote Services: Windows Remote Management
