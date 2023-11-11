@@ -20,7 +20,7 @@ For some techniques, it will definitely makes sense to invest effort into harden
 
 # Procedures
 
-To ease the reading, I've extracted each procedure's step below and added few comments.
+To ease the reading, I've extracted each procedure's step from the spreadsheet and added few comments hereafter.
 
 ### Step 1 - Reconnaissance: n/a
 
