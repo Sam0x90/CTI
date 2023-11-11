@@ -161,6 +161,12 @@ n/a
 3. Copy and run as admin the script wmi_event_sub.ps1
 4. Open a notepad.exe
 
+The ps1 script will create a WMI filter and a consumer, and bind them together.
+The WMI filter will trigger upon the creation of a notepad.exe process.
+The vbs script will then:
+- run a cmd and create a file in C:\temp\cmdfile.txt
+- run a cmd and ping github.com
+
 <ins>Cleaning procedure</ins>
 1. Copy and run as admin the script wmi_sub_remove.ps1 to clean up the WMI subscription.
 2. Delete file ""cmd_fileping.vbs"" in C:\temp\folder
