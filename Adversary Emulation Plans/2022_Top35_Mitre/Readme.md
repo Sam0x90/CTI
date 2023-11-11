@@ -217,7 +217,7 @@ run
 Meterpreter is being used here but obviously those who can afford a CS license should perform the same steps with CS.
 
 <ins>Cleaning procedure</ins>
-1. Kill the meterpreter session and clean up related files if any (PS script, etc.)
+1. Kill the meterpreter session and clean up related files if any
 2. Kill the injected process
 
 ### Step 19 - Privilege Escalation/Defense Evasion: T1055.012 Process Injection: Process Hollowing
