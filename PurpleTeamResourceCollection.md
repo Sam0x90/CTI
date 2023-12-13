@@ -36,6 +36,7 @@
 - https://github.com/blackorbird/APT_REPORT
 - https://www.crowdstrike.com/adversaries/
 - https://learn.microsoft.com/en-us/microsoft-365/security/intelligence/microsoft-threat-actor-naming?view=o365-worldwide
+- https://docs.google.com/spreadsheets/d/1H9_xaxQHpWaa4O_Son4Gx0YOIzlcBWMsdvePFX68EKU/edit
 - https://apt.etda.or.th/cgi-bin/aptgroups.cgi
 - https://unit42.paloaltonetworks.com/atoms/
 - https://www.ncsc.admin.ch/ncsc/en/home/aktuell/im-fokus/wochenrueckblicke.html
